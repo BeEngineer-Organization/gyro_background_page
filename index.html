@@ -1,28 +1,29 @@
 <!doctype html>
 <html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Sakura Demo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Sakura Demo</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
-
-<body>
-  <div class="ui">
-    <div class="panel small">
-      <div><b>Sakura Demo</b></div>
-      <div class="mono" id="debug">sensor: -</div>
-      <div class="small">端末を傾けると落下方向が少し斜めになります</div>
+  <body>
+    <div class="ui">
+      <div class="panel small">
+        <div><b>Sakura Demo</b></div>
+        <div class="mono" id="debug">sensor: -</div>
+        <div class="small">端末を傾けると落下方向が少し斜めになります</div>
+      </div>
+      <div class="panel controls">
+        <button id="btn">動きを許可</button>
+      </div>
     </div>
-    <div class="panel controls">
-      <button id="btn">動きを許可</button>
-    </div>
-  </div>
 
-  <canvas id="c"></canvas>
+    <canvas id="c"></canvas>
 
-  <script src="./script.js"></script>
-</body>
-
+    <script src="./script_check.js"></script>
+  </body>
 </html>
