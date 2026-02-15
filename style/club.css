@@ -1,0 +1,183 @@
+body {
+  margin: 0;
+  font-family: 'Noto Sans JP', 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.body {
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.ui {
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #fff;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Hiragino Kaku Gothic ProN',
+    'Noto Sans JP',
+    sans-serif;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.panel {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 12px;
+  backdrop-filter: blur(6px);
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: max-content;
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+  color: #0b1020;
+  background: #ffd6e6;
+  cursor: pointer;
+}
+
+canvas {
+  position: fixed;
+  display: block;
+  width: 100vw;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.hero-inner {
+  max-width: 480px;
+}
+
+.club-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5em;
+  color: #ffffff;
+}
+
+.club-message {
+  font-size: 1rem;
+  color: #cccccc;
+  margin-bottom: 2em;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #f29db0;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.9em 2em;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #f5b3c0;
+}
+
+.about {
+  padding: 60px 20px;
+}
+
+.about-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.2em;
+  color: #f29db0;
+}
+
+.about-text {
+  font-size: 0.95rem;
+  color: #dddddd;
+  margin-bottom: 2em;
+  line-height: 1.8;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2em;
+}
+
+.info-card {
+  background-color: #141a33;
+  border-radius: 8px;
+  padding: 1.2em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.info-card h3 {
+  font-size: 1rem;
+  color: #f29db0;
+  margin-bottom: 0.4em;
+}
+
+.info-card p {
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+.join-message {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: #888888;
+}
+
+@media (min-width: 600px) {
+  .club-title {
+    font-size: 2.6rem;
+  }
+
+  .about h2 {
+    font-size: 1.8rem;
+  }
+
+  .info-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

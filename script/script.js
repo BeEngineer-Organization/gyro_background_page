@@ -3,7 +3,7 @@ const context = canvas.getContext('2d');
 const debugElement = document.getElementById('debug');
 const button = document.getElementById('btn');
 
-const PETAL_COUNT = 90;
+const petalCountPerWidth = 90 / 500;
 const petals = [];
 const petalImg = new Image();
 petalImg.src = 'img/petal.png';
@@ -11,7 +11,7 @@ petalImg.src = 'img/petal.png';
 const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 const isIOS = /iPad|iPhone|iPod/.test(userAgent);
 const isAndroid = /Android/.test(userAgent);
-const osSignX = isAndroid ? -1 : 1;
+const osSignX = isIOS ? -1 : 1;
 
 let tiltX = 0;
 let tiltY = 0;
@@ -57,9 +57,9 @@ function generatePetal(fromTop = true) {
   return petal;
 }
 
-function generatePetals() {
-  for (let i = 0; i < PETAL_COUNT; i++) {
-    petal = generatePetal((fromTop = false));
+function generatePetals(petalCount) {
+  for (let i = 0; i < petalCount; i++) {
+    const petal = generatePetal((fromTop = false));
     petals.push(petal);
   }
 }
@@ -118,7 +118,7 @@ function onMotion(e) {
   const acceleration = e.accelerationIncludingGravity;
   if (!acceleration) return;
 
-  const accelX = -acceleration.x ?? 0;
+  const accelX = -acceleration.x * osSignX ?? 0;
   const accelY = acceleration.y ?? 0;
 
   const {virtualAccelX, virtualAccelY, screenAngle} = normalizeScreenAxes(
@@ -181,7 +181,8 @@ window.addEventListener('resize', resize);
 window.addEventListener('DOMContentLoaded', () => {
   resize();
 
-  generatePetals();
+  const petalCount = Math.floor(innerWidth * petalCountPerWidth);
+  generatePetals(petalCount);
 
   tick(performance.now());
 });
