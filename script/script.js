@@ -3,12 +3,12 @@ const context = canvas.getContext('2d');
 const debugElement = document.getElementById('debug');
 const button = document.getElementById('btn');
 
-const petalCountPerWidth = 90 / 500;
+const petalCount = 90;
 const petals = [];
 const petalImg = new Image();
 petalImg.src = 'img/petal.png';
 
-const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+const userAgent = navigator.userAgent ?? navigator.vendor ?? window.opera;
 const isIOS = /iPad|iPhone|iPod/.test(userAgent);
 const isAndroid = /Android/.test(userAgent);
 const osSignX = isIOS ? -1 : 1;
@@ -16,23 +16,25 @@ const osSignX = isIOS ? -1 : 1;
 let tiltX = 0;
 let tiltY = 0;
 
+let last = performance.now();
+
 function rand(a, b) {
   return a + Math.random() * (b - a);
 }
 
-function clamp(n, min, max) {
-  // n の値を範囲 [min, max] に制限する
-  if (n > max) {
+function clamp(x, min, max) {
+  // x の値を範囲 [min, max] に制限する
+  if (x > max) {
     return max;
-  } else if (n < min) {
+  } else if (x < min) {
     return min;
   } else {
-    return n;
+    return x;
   }
 }
 
 function resize() {
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio ?? 1;
   canvas.width = Math.floor(innerWidth * dpr);
   canvas.height = Math.floor(innerHeight * dpr);
   canvas.style.width = innerWidth + 'px';
@@ -132,7 +134,6 @@ function onMotion(e) {
   debugElement.textContent = `OS:${isIOS ? 'iOS' : isAndroid ? 'Android' : 'Other'} angle:${screenAngle} tiltX:${tiltX.toFixed(2)} tiltY:${tiltY.toFixed(2)}`;
 }
 
-let last = performance.now();
 function tick(now) {
   const dt = Math.min(0.05, (now - last) / 1000);
   last = now;
@@ -156,7 +157,11 @@ function tick(now) {
     petal.y += speedY * dt;
     petal.angle += petal.rotateSpeed * dt;
 
-    if (petal.y > innerHeight || petal.x < -60 || petal.x > innerWidth + 60) {
+    if (
+      petal.y > innerHeight + 64 ||
+      petal.x < -60 ||
+      petal.x > innerWidth + 60
+    ) {
       const newPetal = generatePetal();
 
       // 傾きがあるときに描画位置を調整
@@ -181,7 +186,6 @@ window.addEventListener('resize', resize);
 window.addEventListener('DOMContentLoaded', () => {
   resize();
 
-  const petalCount = Math.floor(innerWidth * petalCountPerWidth);
   generatePetals(petalCount);
 
   tick(performance.now());
