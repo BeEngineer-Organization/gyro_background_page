@@ -11,7 +11,7 @@ petalImg.src = 'img/petal.png';
 const userAgent = navigator.userAgent ?? navigator.vendor ?? window.opera;
 const isIOS = /iPad|iPhone|iPod/.test(userAgent);
 const isAndroid = /Android/.test(userAgent);
-const osSignX = isIOS ? -1 : 1;
+const osSign = isIOS ? -1 : 1;
 
 let tiltX = 0;
 let tiltY = 0;
@@ -35,9 +35,9 @@ function clamp(x, min, max) {
 
 function resize() {
   const dpr = window.devicePixelRatio ?? 1;
-  canvas.width = Math.floor(innerWidth * dpr);
+  canvas.width = Math.floor(document.documentElement.clientWidth * dpr);
   canvas.height = Math.floor(innerHeight * dpr);
-  canvas.style.width = innerWidth + 'px';
+  canvas.style.width = document.documentElement.clientWidth + 'px';
   canvas.style.height = innerHeight + 'px';
   context.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
@@ -47,15 +47,14 @@ function generatePetal(fromTop = true) {
   petal.x = rand(0, innerWidth);
   petal.y = fromTop ? rand(-innerHeight * 0.2, 0) : rand(0, innerHeight);
   petal.size = rand(32, 64);
-  petal.fallSpeed = rand(40, 90);
-  // petal.fallSpeed = 0;
-  petal.driftSpeed = rand(-15, 15); // 横滑り
-  petal.angle = rand(0, 2 * Math.PI); // 生成時の角度
-  petal.rotateSpeed = rand((-Math.PI * 2) / 3, (Math.PI * 2) / 3); // 回転速度
+  petal.angle = rand(0, 2 * Math.PI); // 花びらの角度
+  petal.alpha = rand(0.6, 1); // 花びらの透明度
+  petal.fallSpeed = rand(40, 90); // 落下速度
+  petal.driftSpeed = rand(-15, 15); // 横滑りの速度
+  petal.rotateSpeed = rand((-Math.PI * 2) / 3, (Math.PI * 2) / 3); // 花びらの回転速度
   petal.swayPhase = rand(0, 2 * Math.PI); // 揺れの初期位相
   petal.swayAmp = rand(4, 16); // 揺れの振幅
-  petal.swayPhaseSpeed = rand(0.6, 1.6); // 揺れの変化率(角速度)
-  petal.alpha = rand(0.6, 1); // 透明度
+  petal.swayPhaseSpeed = rand(0.6, 1.6); // 揺れの変化率（角速度）
   return petal;
 }
 
@@ -120,18 +119,21 @@ function onMotion(e) {
   const acceleration = e.accelerationIncludingGravity;
   if (!acceleration) return;
 
-  const accelX = -acceleration.x * osSignX ?? 0;
-  const accelY = acceleration.y ?? 0;
+  const accelX = -acceleration.x * osSign ?? 0;
+  const accelY = acceleration.y * osSign ?? 0;
 
   const {virtualAccelX, virtualAccelY, screenAngle} = normalizeScreenAxes(
     accelX,
     accelY
   );
 
-  tiltX = clamp(virtualAccelX / 9.8, -1, 1); // 傾け度合いを[-1, 1]の範囲で設定する
+  // 傾け度合いを[-1, 1]の範囲で設定する
+  tiltX = clamp(virtualAccelX / 9.8, -1, 1);
   tiltY = clamp(virtualAccelY / 9.8, -1, 1);
 
-  debugElement.textContent = `OS:${isIOS ? 'iOS' : isAndroid ? 'Android' : 'Other'} angle:${screenAngle} tiltX:${tiltX.toFixed(2)} tiltY:${tiltY.toFixed(2)}`;
+  if (debugElement !== null) {
+    debugElement.textContent = `OS:${isIOS ? 'iOS' : isAndroid ? 'Android' : 'Other'} angle:${screenAngle} tiltX:${tiltX.toFixed(2)} tiltY:${tiltY.toFixed(2)}`;
+  }
 }
 
 function tick(now) {
