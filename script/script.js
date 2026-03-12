@@ -60,7 +60,7 @@ function generatePetal(fromTop = true) {
 
 function generatePetals(petalCount) {
   for (let i = 0; i < petalCount; i++) {
-    const petal = generatePetal((fromTop = false));
+    const petal = generatePetal(false);
     petals.push(petal);
   }
 }
