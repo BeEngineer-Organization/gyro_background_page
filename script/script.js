@@ -119,8 +119,8 @@ function onMotion(e) {
   const acceleration = e.accelerationIncludingGravity;
   if (!acceleration) return;
 
-  const accelX = -acceleration.x * osSign ?? 0;
-  const accelY = acceleration.y * osSign ?? 0;
+  const accelX = -(acceleration.x ?? 0) * osSign;
+  const accelY = (acceleration.y ?? 0) * osSign;
 
   const {virtualAccelX, virtualAccelY, screenAngle} = normalizeScreenAxes(
     accelX,
